@@ -1,2 +1,19 @@
-# AssemblyFinder
-Helper hat let you find class or types in assemblies in your applications
+# Mvvx.Plugins.AssemblyFinder
+
+### Compatibility ###
+The plugin is compatible with android, WPF and UWP applications.
+Perhaps iOS ! Not tested but the code seems ok.
+
+Using the AssemblyFinder for MvvmCross is quite simple. The plugin injects the IAssemblyFinder interface into the IoC container.
+Each resolve to IAssemblyFinder from the Mvx.Resolve<IAssemblyFinder>() will create a new instance of the service.
+
+## Search samples
+
+### Search class in loaded assemblies
+
+```c#
+var typeFinder = Mvx.Resolve<IAssemblyFinder>();
+var myListOfClassesOrInterfaces = typeFinder.FindClassesOfType(typeof(<Set Class or interface here>)).ToList();
+```
+
+You can search class ou interface.
