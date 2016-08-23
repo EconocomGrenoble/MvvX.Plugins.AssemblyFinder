@@ -2,7 +2,7 @@
  <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>MvvX.Plugins.AssemblyFinder</id>
-        <version>0.3.0.28342-pre</version>
+        <version>0.4.0.21718-pre</version>
         <title>Assembly finder (MvvmCross plugin)</title>
         <authors>MACK Mathieu</authors>
         <owners>MACK Mathieu</owners>

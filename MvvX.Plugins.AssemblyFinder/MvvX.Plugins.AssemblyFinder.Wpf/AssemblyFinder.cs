@@ -10,7 +10,8 @@ namespace MvvX.Plugins.AssemblyFinder.Wpf
     public class AssemblyFinder : IAssemblyFinder
     {
         #region Fields
-        
+
+        private readonly bool loadAppDomainAssemblies = true;
         private readonly string assemblySkipLoadingPattern = "^System|^mscorlib|^Microsoft";
         private readonly string assemblyRestrictToLoadingPattern = ".*";
 
@@ -104,7 +105,9 @@ namespace MvvX.Plugins.AssemblyFinder.Wpf
         {
             var addedAssemblyNames = new List<string>();
             var assemblies = new List<Assembly>();
-            
+
+            if (loadAppDomainAssemblies)
+                AddAssembliesInAppDomain(addedAssemblyNames, assemblies);
             AddConfiguredAssemblies(addedAssemblyNames, assemblies);
 
             return assemblies;
@@ -113,7 +116,25 @@ namespace MvvX.Plugins.AssemblyFinder.Wpf
         #endregion
 
         #region Utilities
-        
+
+        /// <summary>
+        /// Iterates all assemblies in the AppDomain and if it's name matches the configured patterns add it to our list.
+        /// </summary>
+        /// <param name="addedAssemblyNames"></param>
+        /// <param name="assemblies"></param>
+        private void AddAssembliesInAppDomain(List<string> addedAssemblyNames, List<Assembly> assemblies)
+        {
+            var assembliesLoaded = AppDomain.CurrentDomain.GetAssemblies();
+            foreach (Assembly assembly in assembliesLoaded)
+            {
+                if (Matches(assembly.FullName) && !addedAssemblyNames.Contains(assembly.FullName))
+                {
+                    assemblies.Add(assembly);
+                    addedAssemblyNames.Add(assembly.FullName);
+                }
+            }
+        }
+
         /// <summary>
         /// Adds specificly configured assemblies.
         /// </summary>
