@@ -1,3 +1,5 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/qlh7kwds6d2292g2?svg=true)](https://ci.appveyor.com/project/mathieumack/mvvx-plugins-assemblyfinder)
+
 # Mvvx.Plugins.AssemblyFinder
 
 ### Compatibility ###
