@@ -39,7 +39,7 @@
         <file src="..\MvvX.Plugins.AssemblyFinder\bin\Release\MvvX.Plugins.AssemblyFinder.XML" target="lib\netcore45" />
         <file src="..\MvvX.Plugins.AssemblyFinder\bin\Release\MvvX.Plugins.AssemblyFinder.dll" target="lib\netcore45" />
         <file src="..\MvvX.Plugins.AssemblyFinder.WindowsUWP\bin\Release\MvvX.Plugins.AssemblyFinder.WindowsUWP.dll" target="lib\netcore45" />
-		<file src="BootstrapContent\Uwp\AssemblyFinderPluginBootstrap.cs.pp" target="content\uap10\Bootstrap\AssemblyFinderPluginBootstrap.cs.pp" />
+		<file src="BootstrapContent\Uwp\AssemblyFinderPluginBootstrap.cs.pp" target="content\netcore45\Bootstrap\AssemblyFinderPluginBootstrap.cs.pp" />
 		
         <!-- iOS -->
         <file src="..\MvvX.Plugins.AssemblyFinder\bin\Release\MvvX.Plugins.AssemblyFinder.XML" target="lib\Xamarin.iOS10" />
