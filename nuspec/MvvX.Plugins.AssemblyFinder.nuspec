@@ -36,10 +36,22 @@
 		<file src="BootstrapContent\Droid\AssemblyFinderPluginBootstrap.cs.pp" target="content\MonoAndroid10\Bootstrap\AssemblyFinderPluginBootstrap.cs.pp" />
 		
         <!-- UWP -->
-        <file src="..\MvvX.Plugins.AssemblyFinder\bin\Release\MvvX.Plugins.AssemblyFinder.XML" target="lib\netcore45" />
-        <file src="..\MvvX.Plugins.AssemblyFinder\bin\Release\MvvX.Plugins.AssemblyFinder.dll" target="lib\netcore45" />
-        <file src="..\MvvX.Plugins.AssemblyFinder.WindowsUWP\bin\Release\MvvX.Plugins.AssemblyFinder.WindowsUWP.dll" target="lib\netcore45" />
-		<file src="BootstrapContent\Uwp\AssemblyFinderPluginBootstrap.cs.pp" target="content\netcore45\Bootstrap\AssemblyFinderPluginBootstrap.cs.pp" />
+        <file src="..\MvvX.Plugins.AssemblyFinder\bin\Release\MvvX.Plugins.AssemblyFinder.XML" target="runtimes\win10-arm\native" />
+        <file src="..\MvvX.Plugins.AssemblyFinder\bin\Release\MvvX.Plugins.AssemblyFinder.dll" target="runtimes\win10-arm\native" />
+        <file src="..\MvvX.Plugins.AssemblyFinder\bin\ARM\Release\MvvX.Plugins.AssemblyFinder.dll" target="runtimes\win10-arm\native"/>
+        <file src="..\MvvX.Plugins.AssemblyFinder\bin\ARM\Release\MvvX.Plugins.AssemblyFinder.pri" target="runtimes\win10-arm\native"/>
+
+        <file src="..\MvvX.Plugins.AssemblyFinder\bin\Release\MvvX.Plugins.AssemblyFinder.XML" target="runtimes\win10-x64\native" />
+        <file src="..\MvvX.Plugins.AssemblyFinder\bin\Release\MvvX.Plugins.AssemblyFinder.dll" target="runtimes\win10-x64\native" />
+        <file src="..\MvvX.Plugins.AssemblyFinder\bin\x64\Release\MvvX.Plugins.AssemblyFinder.dll" target="runtimes\win10-x64\native"/>
+        <file src="..\MvvX.Plugins.AssemblyFinder\bin\x86\Release\MvvX.Plugins.AssemblyFinder.pri" target="runtimes\win10-x64\native"/>
+
+        <file src="..\MvvX.Plugins.AssemblyFinder\bin\x86\Release\MvvX.Plugins.AssemblyFinder.dll" target="runtimes\win10-x86\native"/>
+        <file src="..\MvvX.Plugins.AssemblyFinder\bin\Release\MvvX.Plugins.AssemblyFinder.XML" target="runtimes\win10-arm\native" />
+        <file src="..\MvvX.Plugins.AssemblyFinder\bin\x86\Release\MvvX.Plugins.AssemblyFinder.dll" target="runtimes\win10-x86\native"/>
+        <file src="..\MvvX.Plugins.AssemblyFinder\bin\x86\Release\MvvX.Plugins.AssemblyFinder.pri" target="runtimes\win10-x86\native"/>
+
+		<file src="BootstrapContent\Uwp\AssemblyFinderPluginBootstrap.cs.pp" target="content\uap10.0\AssemblyFinderPluginBootstrap.cs.pp" />
 		
         <!-- iOS -->
         <file src="..\MvvX.Plugins.AssemblyFinder\bin\Release\MvvX.Plugins.AssemblyFinder.XML" target="lib\Xamarin.iOS10" />
