@@ -16,7 +16,7 @@
     <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
-    <TargetFrameworkVersion>v6.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v7.1</TargetFrameworkVersion>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -80,6 +80,10 @@
     <None Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MvvX.Plugins.AssemblyFinder.Core\MvvX.Plugins.AssemblyFinder.Core.csproj">
+      <Project>{7d36f4cc-3892-456f-b139-54aa58da66be}</Project>
+      <Name>MvvX.Plugins.AssemblyFinder.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MvvX.Plugins.AssemblyFinder.Droid\MvvX.Plugins.AssemblyFinder.Droid.csproj">
       <Project>{B4FA4499-708B-491C-B80E-68E102F2CDE1}</Project>
       <Name>MvvX.Plugins.AssemblyFinder.Droid</Name>

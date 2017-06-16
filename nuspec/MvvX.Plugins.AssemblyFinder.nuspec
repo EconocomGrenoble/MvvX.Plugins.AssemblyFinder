@@ -9,7 +9,7 @@
         <licenseUrl>https://github.com/mathieumack/MvvX.Plugins.AssemblyFinder</licenseUrl>
         <projectUrl>https://github.com/mathieumack/MvvX.Plugins.AssemblyFinder</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <description>This package contains a package that let you search in your application assemblies. This is a  plugin for MvvmCross.</description>
+        <description>This package contains a package that let you search in your application assemblies. This is a plugin for MvvmCross.</description>
         <tags>mvvm mvvmcross xamarin monodroid monotouch wpf netcore wp wpdev</tags>
         <dependencies>
           <group>
@@ -27,27 +27,32 @@
         <file src="..\MvvX.Plugins.AssemblyFinder\bin\Release\MvvX.Plugins.AssemblyFinder.XML" target="lib\net45" />
         <file src="..\MvvX.Plugins.AssemblyFinder\bin\Release\MvvX.Plugins.AssemblyFinder.dll" target="lib\net45" />
         <file src="..\MvvX.Plugins.AssemblyFinder.Wpf\bin\Release\MvvX.Plugins.AssemblyFinder.Wpf.dll" target="lib\net45" />
+        <file src="..\MvvX.Plugins.AssemblyFinder.Core\bin\Release\MvvX.Plugins.AssemblyFinder.Core.dll" target="lib\net45" />
 		<file src="BootstrapContent\AssemblyFinderPluginBootstrap.cs.pp" target="content\net45\Bootstrap\AssemblyFinderPluginBootstrap.cs.pp" />
 		
         <!-- Android -->
         <file src="..\MvvX.Plugins.AssemblyFinder\bin\Release\MvvX.Plugins.AssemblyFinder.XML" target="lib\MonoAndroid10" />
         <file src="..\MvvX.Plugins.AssemblyFinder\bin\Release\MvvX.Plugins.AssemblyFinder.dll" target="lib\MonoAndroid10" />
         <file src="..\MvvX.Plugins.AssemblyFinder.Droid\bin\Release\MvvX.Plugins.AssemblyFinder.Droid.dll" target="lib\MonoAndroid10" />
+        <file src="..\MvvX.Plugins.AssemblyFinder.Core\bin\Release\MvvX.Plugins.AssemblyFinder.Core.dll" target="lib\MonoAndroid10" />
 		<file src="BootstrapContent\Droid\AssemblyFinderPluginBootstrap.cs.pp" target="content\MonoAndroid10\Bootstrap\AssemblyFinderPluginBootstrap.cs.pp" />
 		
         <!-- UWP -->
         <file src="..\MvvX.Plugins.AssemblyFinder\bin\Release\MvvX.Plugins.AssemblyFinder.XML" target="runtimes\win10-arm\native" />
         <file src="..\MvvX.Plugins.AssemblyFinder\bin\Release\MvvX.Plugins.AssemblyFinder.dll" target="runtimes\win10-arm\native" />
+        <file src="..\MvvX.Plugins.AssemblyFinder.Core\bin\Release\MvvX.Plugins.AssemblyFinder.Core.dll" target="runtimes\win10-arm\native" />
         <file src="..\MvvX.Plugins.AssemblyFinder\bin\ARM\Release\MvvX.Plugins.AssemblyFinder.dll" target="runtimes\win10-arm\native"/>
         <file src="..\MvvX.Plugins.AssemblyFinder\bin\ARM\Release\MvvX.Plugins.AssemblyFinder.pri" target="runtimes\win10-arm\native"/>
 
         <file src="..\MvvX.Plugins.AssemblyFinder\bin\Release\MvvX.Plugins.AssemblyFinder.XML" target="runtimes\win10-x64\native" />
         <file src="..\MvvX.Plugins.AssemblyFinder\bin\Release\MvvX.Plugins.AssemblyFinder.dll" target="runtimes\win10-x64\native" />
+        <file src="..\MvvX.Plugins.AssemblyFinder.Core\bin\Release\MvvX.Plugins.AssemblyFinder.Core.dll" target="runtimes\win10-x64\native" />
         <file src="..\MvvX.Plugins.AssemblyFinder\bin\x64\Release\MvvX.Plugins.AssemblyFinder.dll" target="runtimes\win10-x64\native"/>
         <file src="..\MvvX.Plugins.AssemblyFinder\bin\x86\Release\MvvX.Plugins.AssemblyFinder.pri" target="runtimes\win10-x64\native"/>
 
         <file src="..\MvvX.Plugins.AssemblyFinder\bin\x86\Release\MvvX.Plugins.AssemblyFinder.dll" target="runtimes\win10-x86\native"/>
-        <file src="..\MvvX.Plugins.AssemblyFinder\bin\Release\MvvX.Plugins.AssemblyFinder.XML" target="runtimes\win10-arm\native" />
+        <file src="..\MvvX.Plugins.AssemblyFinder\bin\Release\MvvX.Plugins.AssemblyFinder.XML" target="runtimes\win10-x86\native" />
+        <file src="..\MvvX.Plugins.AssemblyFinder.Core\bin\Release\MvvX.Plugins.AssemblyFinder.Core.dll" target="runtimes\win10-x86\native" />
         <file src="..\MvvX.Plugins.AssemblyFinder\bin\x86\Release\MvvX.Plugins.AssemblyFinder.dll" target="runtimes\win10-x86\native"/>
         <file src="..\MvvX.Plugins.AssemblyFinder\bin\x86\Release\MvvX.Plugins.AssemblyFinder.pri" target="runtimes\win10-x86\native"/>
 
@@ -56,6 +61,7 @@
         <!-- iOS -->
         <file src="..\MvvX.Plugins.AssemblyFinder\bin\Release\MvvX.Plugins.AssemblyFinder.XML" target="lib\Xamarin.iOS10" />
         <file src="..\MvvX.Plugins.AssemblyFinder\bin\Release\MvvX.Plugins.AssemblyFinder.dll" target="lib\Xamarin.iOS10" />
+        <file src="..\MvvX.Plugins.AssemblyFinder.Core\bin\Release\MvvX.Plugins.AssemblyFinder.Core.dll" target="lib\Xamarin.iOS10" />
         <file src="..\MvvX.Plugins.AssemblyFinder.Touch\bin\Release\MvvX.Plugins.AssemblyFinder.Touch.dll" target="lib\Xamarin.iOS10" />
 		<file src="BootstrapContent\Touch\AssemblyFinderPluginBootstrap.cs.pp" target="content\Xamarin.iOS10\Bootstrap\AssemblyFinderPluginBootstrap.cs.pp" />
     </files>

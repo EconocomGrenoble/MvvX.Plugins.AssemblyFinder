@@ -7,42 +7,8 @@ using System.Text.RegularExpressions;
 
 namespace MvvX.Plugins.AssemblyFinder.Wpf
 {
-    public class AssemblyFinder : IAssemblyFinder
+    public class AssemblyFinder : BaseAssemblyFinder, IAssemblyFinder
     {
-        #region Fields
-
-        private readonly bool loadAppDomainAssemblies = true;
-        private readonly string assemblySkipLoadingPattern = "^System|^mscorlib|^Microsoft";
-        private readonly string assemblyRestrictToLoadingPattern = ".*";
-
-        /// <summary>
-        /// Caches attributed assembly information so they don't have to be re-read
-        /// </summary>
-        private readonly List<AttributedAssembly> _attributedAssemblies = new List<AttributedAssembly>();
-        /// <summary>
-        /// Caches the assembly attributes that have been searched for
-        /// </summary>
-        private readonly List<Type> _assemblyAttributesSearched = new List<Type>();
-
-        #endregion
-
-        #region Properties
-        
-        /// <summary>Gets or sets assemblies loaded a startup in addition to those loaded in the AppDomain.</summary>
-        public IList<string> AssemblyNames { get; set; } = new List<string>();
-
-        #endregion
-
-        #region Nested classes
-
-        private class AttributedAssembly
-        {
-            internal Assembly Assembly { get; set; }
-            internal Type PluginAttributeType { get; set; }
-        }
-
-        #endregion
-
         #region Methods
 
         public IEnumerable<Type> FindClassesOfType<T>(bool onlyConcreteClasses = true)
@@ -106,7 +72,7 @@ namespace MvvX.Plugins.AssemblyFinder.Wpf
             var addedAssemblyNames = new List<string>();
             var assemblies = new List<Assembly>();
 
-            if (loadAppDomainAssemblies)
+            if (LoadAppDomainAssemblies)
                 AddAssembliesInAppDomain(addedAssemblyNames, assemblies);
             AddConfiguredAssemblies(addedAssemblyNames, assemblies);
 
@@ -153,38 +119,6 @@ namespace MvvX.Plugins.AssemblyFinder.Wpf
             }
         }
 
-        /// <summary>
-        /// Check if a dll is one of the shipped dlls that we know don't need to be investigated.
-        /// </summary>
-        /// <param name="assemblyFullName">
-        /// The name of the assembly to check.
-        /// </param>
-        /// <returns>
-        /// True if the assembly should be loaded into Nop.
-        /// </returns>
-        public virtual bool Matches(string assemblyFullName)
-        {
-            return !Matches(assemblyFullName, assemblySkipLoadingPattern)
-                   && Matches(assemblyFullName, assemblyRestrictToLoadingPattern);
-        }
-
-        /// <summary>
-        /// Check if a dll is one of the shipped dlls that we know don't need to be investigated.
-        /// </summary>
-        /// <param name="assemblyFullName">
-        /// The assembly name to match.
-        /// </param>
-        /// <param name="pattern">
-        /// The regular expression pattern to match against the assembly name.
-        /// </param>
-        /// <returns>
-        /// True if the pattern matches the assembly name.
-        /// </returns>
-        protected virtual bool Matches(string assemblyFullName, string pattern)
-        {
-            return Regex.IsMatch(assemblyFullName, pattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        }
-        
         /// <summary>
         /// Does type implement generic?
         /// </summary>

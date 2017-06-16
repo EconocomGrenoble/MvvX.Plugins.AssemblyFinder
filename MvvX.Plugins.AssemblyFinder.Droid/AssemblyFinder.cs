@@ -9,48 +9,8 @@ using System.Text.RegularExpressions;
 
 namespace MvvX.Plugins.AssemblyFinder.Droid
 {
-    public class AssemblyFinder : IAssemblyFinder
+    public class AssemblyFinder : BaseAssemblyFinder, IAssemblyFinder
     {
-        #region Fields
-
-        private readonly bool loadAppDomainAssemblies = true;
-        private readonly string assemblySkipLoadingPattern = "^System|^mscorlib|^Microsoft|^CppCodeProvider|^VJSharpCodeProvider|^WebDev|^Castle|^Iesi|^log4net|^NHibernate|^nunit|^TestDriven|^MbUnit|^Rhino|^QuickGraph|^TestFu|^Telerik|^ComponentArt|^MvcContrib|^AjaxControlToolkit|^Antlr3|^Remotion|^Recaptcha";
-        private readonly string assemblyRestrictToLoadingPattern = ".*";
-
-        /// <summary>
-        /// Caches attributed assembly information so they don't have to be re-read
-        /// </summary>
-        private readonly List<AttributedAssembly> _attributedAssemblies = new List<AttributedAssembly>();
-        /// <summary>
-        /// Caches the assembly attributes that have been searched for
-        /// </summary>
-        private readonly List<Type> _assemblyAttributesSearched = new List<Type>();
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>The app domain to look for types in.</summary>
-        public virtual AppDomain App
-        {
-            get { return AppDomain.CurrentDomain; }
-        }
-
-        /// <summary>Gets or sets assemblies loaded a startup in addition to those loaded in the AppDomain.</summary>
-        public IList<string> AssemblyNames { get; set; } = new List<string>();
-
-        #endregion
-
-        #region Nested classes
-
-        private class AttributedAssembly
-        {
-            internal Assembly Assembly { get; set; }
-            internal Type PluginAttributeType { get; set; }
-        }
-
-        #endregion
-
         #region Methods
 
         public IEnumerable<Type> FindClassesOfType<T>(bool onlyConcreteClasses = true)
@@ -121,22 +81,22 @@ namespace MvvX.Plugins.AssemblyFinder.Droid
         public IEnumerable<Assembly> FindAssembliesWithAttribute<T>(IEnumerable<Assembly> assemblies)
         {
             //check if we've already searched this assembly);)
-            if (!_assemblyAttributesSearched.Contains(typeof(T)))
+            if (!AssemblyAttributesSearched.Contains(typeof(T)))
             {
                 var foundAssemblies = (from assembly in assemblies
                                        let customAttributes = assembly.GetCustomAttributes(typeof(T), false)
                                        where customAttributes.Any()
                                        select assembly).ToList();
                 //now update the cache
-                _assemblyAttributesSearched.Add(typeof(T));
+                AssemblyAttributesSearched.Add(typeof(T));
                 foreach (var a in foundAssemblies)
                 {
-                    _attributedAssemblies.Add(new AttributedAssembly { Assembly = a, PluginAttributeType = typeof(T) });
+                    AttributedAssemblies.Add(new AttributedAssembly { Assembly = a, PluginAttributeType = typeof(T) });
                 }
             }
 
             //We must do a ToList() here because it is required to be serializable when using other app domains.
-            return _attributedAssemblies
+            return AttributedAssemblies
                 .Where(x => x.PluginAttributeType.Equals(typeof(T)))
                 .Select(x => x.Assembly)
                 .ToList();
@@ -160,7 +120,7 @@ namespace MvvX.Plugins.AssemblyFinder.Droid
             var addedAssemblyNames = new List<string>();
             var assemblies = new List<Assembly>();
 
-            if (loadAppDomainAssemblies)
+            if (LoadAppDomainAssemblies)
                 AddAssembliesInAppDomain(addedAssemblyNames, assemblies);
             AddConfiguredAssemblies(addedAssemblyNames, assemblies);
 
@@ -208,38 +168,6 @@ namespace MvvX.Plugins.AssemblyFinder.Droid
         }
 
         /// <summary>
-        /// Check if a dll is one of the shipped dlls that we know don't need to be investigated.
-        /// </summary>
-        /// <param name="assemblyFullName">
-        /// The name of the assembly to check.
-        /// </param>
-        /// <returns>
-        /// True if the assembly should be loaded into Nop.
-        /// </returns>
-        public virtual bool Matches(string assemblyFullName)
-        {
-            return !Matches(assemblyFullName, assemblySkipLoadingPattern)
-                   && Matches(assemblyFullName, assemblyRestrictToLoadingPattern);
-        }
-
-        /// <summary>
-        /// Check if a dll is one of the shipped dlls that we know don't need to be investigated.
-        /// </summary>
-        /// <param name="assemblyFullName">
-        /// The assembly name to match.
-        /// </param>
-        /// <param name="pattern">
-        /// The regular expression pattern to match against the assembly name.
-        /// </param>
-        /// <returns>
-        /// True if the pattern matches the assembly name.
-        /// </returns>
-        protected virtual bool Matches(string assemblyFullName, string pattern)
-        {
-            return Regex.IsMatch(assemblyFullName, pattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        }
-
-        /// <summary>
         /// Makes sure matching assemblies in the supplied folder are loaded in the app domain.
         /// </summary>
         /// <param name="directoryPath">
@@ -265,7 +193,7 @@ namespace MvvX.Plugins.AssemblyFinder.Droid
                     var an = AssemblyName.GetAssemblyName(dllPath);
                     if (Matches(an.FullName) && !loadedAssemblyNames.Contains(an.FullName))
                     {
-                        App.Load(an);
+                        Assembly.Load(an);
                     }
                 }
                 catch (BadImageFormatException ex)
