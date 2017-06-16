@@ -45,6 +45,10 @@
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MvvX.Plugins.AssemblyFinder.Core\MvvX.Plugins.AssemblyFinder.Core.csproj">
+      <Project>{7d36f4cc-3892-456f-b139-54aa58da66be}</Project>
+      <Name>MvvX.Plugins.AssemblyFinder.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MvvX.Plugins.AssemblyFinder\MvvX.Plugins.AssemblyFinder.csproj">
       <Project>{40cba8b4-b885-423e-bc78-f5519b1b1b73}</Project>
       <Name>MvvX.Plugins.AssemblyFinder</Name>

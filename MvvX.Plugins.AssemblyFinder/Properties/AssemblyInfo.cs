@@ -29,3 +29,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyVersion("0.4.0.*")]
 [assembly: AssemblyFileVersion("0.4.0.0")]
 [assembly: AssemblyInformationalVersion("0.4.0.0")]
+
+[assembly: InternalsVisibleTo("MvvX.Plugins.AssemblyFinder.Droid")]
+[assembly: InternalsVisibleTo("MvvX.Plugins.AssemblyFinder.Touch")]
+[assembly: InternalsVisibleTo("MvvX.Plugins.AssemblyFinder.WindowsUWP")]
+[assembly: InternalsVisibleTo("MvvX.Plugins.AssemblyFinder.Wpf")]
