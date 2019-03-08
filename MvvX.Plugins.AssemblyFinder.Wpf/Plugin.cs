@@ -1,13 +1,14 @@
-﻿using MvvmCross.Platform;
-using MvvmCross.Platform.Plugins;
+﻿using MvvmCross;
+using MvvmCross.Plugin;
 
 namespace MvvX.Plugins.AssemblyFinder.Wpf
 {
+    [MvxPlugin]
     public class Plugin : IMvxPlugin
     {
         public void Load()
         {
-            Mvx.RegisterSingleton<IAssemblyFinder>(new AssemblyFinder());
+            Mvx.IoCProvider.RegisterSingleton<IAssemblyFinder>(new AssemblyFinder());
         }
     }
 }
