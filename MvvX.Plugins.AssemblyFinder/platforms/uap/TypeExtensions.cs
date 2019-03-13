@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace MvvX.Plugins.WindowsUWP
+namespace MvvX.Plugins.AssemblyFinder
 {
     public static class TypeExtensions
     {

@@ -1,15 +1,12 @@
-﻿using MvvX.Plugins.AssemblyFinder;
-using MvvX.Plugins.WindowsUWP;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
-namespace MvvX.Plugins.AssemblyFinder.WindowsUWP
+namespace MvvX.Plugins.AssemblyFinder
 {
     public class AssemblyFinder : IAssemblyFinder
     {
@@ -31,7 +28,13 @@ namespace MvvX.Plugins.AssemblyFinder.WindowsUWP
         #endregion
 
         #region Properties
-        
+
+        /// <summary>The app domain to look for types in.</summary>
+        public virtual AppDomain App
+        {
+            get { return AppDomain.CurrentDomain; }
+        }
+
         /// <summary>Gets or sets assemblies loaded a startup in addition to those loaded in the AppDomain.</summary>
         public IList<string> AssemblyNames { get; set; } = new List<string>();
 
@@ -73,11 +76,11 @@ namespace MvvX.Plugins.AssemblyFinder.WindowsUWP
                 {
                     foreach (var t in a.GetTypes())
                     {
-                        if ((assignTypeFrom.IsAssignableFrom(t) || (assignTypeFrom.IsGenericTypeDefinition() && DoesTypeImplementOpenGeneric(t, assignTypeFrom))) && !t.IsInterface())
+                        if ((assignTypeFrom.IsAssignableFrom(t) || (assignTypeFrom.IsGenericTypeDefinition && DoesTypeImplementOpenGeneric(t, assignTypeFrom))) && !t.IsInterface)
                         {
                             if (onlyConcreteClasses)
                             {
-                                if (t.IsClass() && !t.IsAbstract())
+                                if (t.IsClass && !t.IsAbstract)
                                 {
                                     result.Add(t);
                                 }
@@ -103,6 +106,52 @@ namespace MvvX.Plugins.AssemblyFinder.WindowsUWP
             return result;
         }
 
+        public IEnumerable<Type> FindClassesOfType<T, TAssemblyAttribute>(bool onlyConcreteClasses = true) where TAssemblyAttribute : Attribute
+        {
+            var found = FindAssembliesWithAttribute<TAssemblyAttribute>();
+            return FindClassesOfType<T>(found, onlyConcreteClasses);
+        }
+
+        public IEnumerable<Assembly> FindAssembliesWithAttribute<T>()
+        {
+            return FindAssembliesWithAttribute<T>(GetAssemblies());
+        }
+
+        public IEnumerable<Assembly> FindAssembliesWithAttribute<T>(IEnumerable<Assembly> assemblies)
+        {
+            //check if we've already searched this assembly);)
+            if (!_assemblyAttributesSearched.Contains(typeof(T)))
+            {
+                var foundAssemblies = (from assembly in assemblies
+                                       let customAttributes = assembly.GetCustomAttributes(typeof(T), false)
+                                       where customAttributes.Any()
+                                       select assembly).ToList();
+                //now update the cache
+                _assemblyAttributesSearched.Add(typeof(T));
+                foreach (var a in foundAssemblies)
+                {
+                    _attributedAssemblies.Add(new AttributedAssembly { Assembly = a, PluginAttributeType = typeof(T) });
+                }
+            }
+
+            //We must do a ToList() here because it is required to be serializable when using other app domains.
+            return _attributedAssemblies
+                .Where(x => x.PluginAttributeType.Equals(typeof(T)))
+                .Select(x => x.Assembly)
+                .ToList();
+        }
+
+        public IEnumerable<Assembly> FindAssembliesWithAttribute<T>(DirectoryInfo assemblyPath)
+        {
+            var assemblies = (from f in Directory.GetFiles(assemblyPath.FullName, "*.dll")
+                              select Assembly.LoadFrom(f)
+                                  into assembly
+                              let customAttributes = assembly.GetCustomAttributes(typeof(T), false)
+                              where customAttributes.Any()
+                              select assembly).ToList();
+            return FindAssembliesWithAttribute<T>(assemblies);
+        }
+
         /// <summary>Gets tne assemblies related to the current implementation.</summary>
         /// <returns>A list of assemblies that should be loaded by the Nop factory.</returns>
         public virtual IList<Assembly> GetAssemblies()
@@ -120,26 +169,22 @@ namespace MvvX.Plugins.AssemblyFinder.WindowsUWP
         #endregion
 
         #region Utilities
-        
-        public void AddAssembliesInAppDomain(List<string> addedAssemblyNames, List<Assembly> assemblies)
+
+        /// <summary>
+        /// Iterates all assemblies in the AppDomain and if it's name matches the configured patterns add it to our list.
+        /// </summary>
+        /// <param name="addedAssemblyNames"></param>
+        /// <param name="assemblies"></param>
+        private void AddAssembliesInAppDomain(List<string> addedAssemblyNames, List<Assembly> assemblies)
         {
-            var filesTask = Windows.ApplicationModel.Package.Current.InstalledLocation.GetFilesAsync().AsTask();
-            filesTask.Wait();
-            var files = filesTask.Result;
-            if (files == null)
-                return;
-
-            foreach (var file in files.Where(file => file.FileType == ".dll" || file.FileType == ".exe"))
+            var assembliesLoaded = AppDomain.CurrentDomain.GetAssemblies();
+            foreach (Assembly assembly in assembliesLoaded)
             {
-                try
+                if (Matches(assembly.FullName) && !addedAssemblyNames.Contains(assembly.FullName))
                 {
-                    assemblies.Add(Assembly.Load(new AssemblyName(file.DisplayName)));
+                    assemblies.Add(assembly);
+                    addedAssemblyNames.Add(assembly.FullName);
                 }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine(ex.Message);
-                }
-
             }
         }
 
@@ -152,7 +197,7 @@ namespace MvvX.Plugins.AssemblyFinder.WindowsUWP
         {
             foreach (string assemblyName in AssemblyNames)
             {
-                Assembly assembly = Assembly.Load(new AssemblyName(assemblyName));
+                Assembly assembly = Assembly.Load(assemblyName);
                 if (!addedAssemblyNames.Contains(assembly.FullName))
                 {
                     assemblies.Add(assembly);
@@ -192,7 +237,43 @@ namespace MvvX.Plugins.AssemblyFinder.WindowsUWP
         {
             return Regex.IsMatch(assemblyFullName, pattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
         }
-        
+
+        /// <summary>
+        /// Makes sure matching assemblies in the supplied folder are loaded in the app domain.
+        /// </summary>
+        /// <param name="directoryPath">
+        /// The physical path to a directory containing dlls to load in the app domain.
+        /// </param>
+        protected virtual void LoadMatchingAssemblies(string directoryPath)
+        {
+            var loadedAssemblyNames = new List<string>();
+            foreach (Assembly a in GetAssemblies())
+            {
+                loadedAssemblyNames.Add(a.FullName);
+            }
+
+            if (!Directory.Exists(directoryPath))
+            {
+                return;
+            }
+
+            foreach (string dllPath in Directory.GetFiles(directoryPath, "*.dll"))
+            {
+                try
+                {
+                    var an = AssemblyName.GetAssemblyName(dllPath);
+                    if (Matches(an.FullName) && !loadedAssemblyNames.Contains(an.FullName))
+                    {
+                        App.Load(an);
+                    }
+                }
+                catch (BadImageFormatException ex)
+                {
+                    Trace.TraceError(ex.ToString());
+                }
+            }
+        }
+
         /// <summary>
         /// Does type implement generic?
         /// </summary>
@@ -204,9 +285,9 @@ namespace MvvX.Plugins.AssemblyFinder.WindowsUWP
             try
             {
                 var genericTypeDefinition = openGeneric.GetGenericTypeDefinition();
-                foreach (var implementedInterface in type.GetInterfaces())
+                foreach (var implementedInterface in type.FindInterfaces((objType, objCriteria) => true, null))
                 {
-                    if (!implementedInterface.IsGenericType())
+                    if (!implementedInterface.IsGenericType)
                         continue;
 
                     var isMatch = genericTypeDefinition.IsAssignableFrom(implementedInterface.GetGenericTypeDefinition());

@@ -128,10 +128,6 @@
       <Project>{47C6D681-188B-4526-AC2A-6A3A7A004C91}</Project>
       <Name>Client.SampleClasses</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MvvX.Plugins.AssemblyFinder.WindowsUWP\MvvX.Plugins.AssemblyFinder.WindowsUWP.csproj">
-      <Project>{a681e325-d9cf-47cd-a081-e6569971594a}</Project>
-      <Name>MvvX.Plugins.AssemblyFinder.WindowsUWP</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">

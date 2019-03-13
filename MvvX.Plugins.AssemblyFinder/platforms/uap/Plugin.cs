@@ -1,7 +1,7 @@
 ﻿using MvvmCross;
 using MvvmCross.Plugin;
 
-namespace MvvX.Plugins.AssemblyFinder.Droid
+namespace MvvX.Plugins.AssemblyFinder
 {
     [MvxPlugin]
     public class Plugin : IMvxPlugin

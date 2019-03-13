@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
-namespace MvvX.Plugins.AssemblyFinder.Touch
+namespace MvvX.Plugins.AssemblyFinder
 {
     public class AssemblyFinder : IAssemblyFinder
     {
         #region Fields
 
         private readonly bool loadAppDomainAssemblies = true;
-        private readonly string assemblySkipLoadingPattern = "^System|^mscorlib|^Microsoft|^CppCodeProvider|^VJSharpCodeProvider|^WebDev|^Castle|^Iesi|^log4net|^NHibernate|^nunit|^TestDriven|^MbUnit|^Rhino|^QuickGraph|^TestFu|^Telerik|^ComponentArt|^MvcContrib|^AjaxControlToolkit|^Antlr3|^Remotion|^Recaptcha";
+        private readonly string assemblySkipLoadingPattern = "^System|^mscorlib|^Microsoft";
         private readonly string assemblyRestrictToLoadingPattern = ".*";
 
         /// <summary>
@@ -28,13 +27,7 @@ namespace MvvX.Plugins.AssemblyFinder.Touch
         #endregion
 
         #region Properties
-
-        /// <summary>The app domain to look for types in.</summary>
-        public virtual AppDomain App
-        {
-            get { return AppDomain.CurrentDomain; }
-        }
-
+        
         /// <summary>Gets or sets assemblies loaded a startup in addition to those loaded in the AppDomain.</summary>
         public IList<string> AssemblyNames { get; set; } = new List<string>();
 
@@ -104,52 +97,6 @@ namespace MvvX.Plugins.AssemblyFinder.Touch
                 throw fail;
             }
             return result;
-        }
-
-        public IEnumerable<Type> FindClassesOfType<T, TAssemblyAttribute>(bool onlyConcreteClasses = true) where TAssemblyAttribute : Attribute
-        {
-            var found = FindAssembliesWithAttribute<TAssemblyAttribute>();
-            return FindClassesOfType<T>(found, onlyConcreteClasses);
-        }
-
-        public IEnumerable<Assembly> FindAssembliesWithAttribute<T>()
-        {
-            return FindAssembliesWithAttribute<T>(GetAssemblies());
-        }
-
-        public IEnumerable<Assembly> FindAssembliesWithAttribute<T>(IEnumerable<Assembly> assemblies)
-        {
-            //check if we've already searched this assembly);)
-            if (!_assemblyAttributesSearched.Contains(typeof(T)))
-            {
-                var foundAssemblies = (from assembly in assemblies
-                                       let customAttributes = assembly.GetCustomAttributes(typeof(T), false)
-                                       where customAttributes.Any()
-                                       select assembly).ToList();
-                //now update the cache
-                _assemblyAttributesSearched.Add(typeof(T));
-                foreach (var a in foundAssemblies)
-                {
-                    _attributedAssemblies.Add(new AttributedAssembly { Assembly = a, PluginAttributeType = typeof(T) });
-                }
-            }
-
-            //We must do a ToList() here because it is required to be serializable when using other app domains.
-            return _attributedAssemblies
-                .Where(x => x.PluginAttributeType.Equals(typeof(T)))
-                .Select(x => x.Assembly)
-                .ToList();
-        }
-
-        public IEnumerable<Assembly> FindAssembliesWithAttribute<T>(DirectoryInfo assemblyPath)
-        {
-            var assemblies = (from f in Directory.GetFiles(assemblyPath.FullName, "*.dll")
-                              select Assembly.LoadFrom(f)
-                                  into assembly
-                              let customAttributes = assembly.GetCustomAttributes(typeof(T), false)
-                              where customAttributes.Any()
-                              select assembly).ToList();
-            return FindAssembliesWithAttribute<T>(assemblies);
         }
 
         /// <summary>Gets tne assemblies related to the current implementation.</summary>
@@ -237,43 +184,7 @@ namespace MvvX.Plugins.AssemblyFinder.Touch
         {
             return Regex.IsMatch(assemblyFullName, pattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
         }
-
-        /// <summary>
-        /// Makes sure matching assemblies in the supplied folder are loaded in the app domain.
-        /// </summary>
-        /// <param name="directoryPath">
-        /// The physical path to a directory containing dlls to load in the app domain.
-        /// </param>
-        protected virtual void LoadMatchingAssemblies(string directoryPath)
-        {
-            var loadedAssemblyNames = new List<string>();
-            foreach (Assembly a in GetAssemblies())
-            {
-                loadedAssemblyNames.Add(a.FullName);
-            }
-
-            if (!Directory.Exists(directoryPath))
-            {
-                return;
-            }
-
-            foreach (string dllPath in Directory.GetFiles(directoryPath, "*.dll"))
-            {
-                try
-                {
-                    var an = AssemblyName.GetAssemblyName(dllPath);
-                    if (Matches(an.FullName) && !loadedAssemblyNames.Contains(an.FullName))
-                    {
-                        App.Load(an);
-                    }
-                }
-                catch (BadImageFormatException ex)
-                {
-                    Trace.TraceError(ex.ToString());
-                }
-            }
-        }
-
+        
         /// <summary>
         /// Does type implement generic?
         /// </summary>

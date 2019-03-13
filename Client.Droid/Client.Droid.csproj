@@ -72,10 +72,6 @@
     <None Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MvvX.Plugins.AssemblyFinder.Droid\MvvX.Plugins.AssemblyFinder.Droid.csproj">
-      <Project>{B4FA4499-708B-491C-B80E-68E102F2CDE1}</Project>
-      <Name>MvvX.Plugins.AssemblyFinder.Droid</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Client.SampleClasses\Client.SampleClasses.csproj">
       <Project>{47c6d681-188b-4526-ac2a-6a3a7a004c91}</Project>
       <Name>Client.SampleClasses</Name>
