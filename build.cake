@@ -18,12 +18,12 @@ Setup(context => {
 
     if (isRunningOnAppVeyor)
     {
-        $versionDate = Get-Date -Format "yyyy.1MMdd.1HHmm"
+        var versionDate = Get-Date -Format "yyyy.1MMdd.1HHmm"
         
         var buildNumber = AppVeyor.Environment.Build.Assembly.Ass;
-        AppVeyor.UpdateBuildVersion($versionDate + "-" + buildNumber);
+        AppVeyor.UpdateBuildVersion(versionDate + "-" + buildNumber);
 
-        version = $versionDate + "-" + buildNumber;
+        version = versionDate + "-" + buildNumber;
     }
 
     var cakeVersion = typeof(ICakeContext).Assembly.GetName().Version.ToString();
