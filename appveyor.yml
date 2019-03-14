@@ -12,4 +12,5 @@ deploy:
 install:
 - ps: >-
     $version = Get-Date -Format "yyyy.1MMdd.1HHmm"
+
     Update-AppveyorBuild -Version "$version"
