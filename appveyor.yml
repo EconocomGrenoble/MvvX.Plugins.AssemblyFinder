@@ -9,9 +9,8 @@ deploy:
     secure: bsq7k6KBk+iI9LutJ6wQKuJr3P5qf0sEfgD05BGK31V6DXQYfLWrEk9Dpx2zw+7a
   on:
     branch: master
-    assembly_info:
-
-patch: true
+assembly_info:
+  patch: true
   file: '**\AssemblyInfo.*'
   assembly_version: '{version}.{build}'
   assembly_file_version: '{version}.{build}'
