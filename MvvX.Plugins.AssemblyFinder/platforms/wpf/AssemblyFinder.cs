@@ -84,7 +84,6 @@ namespace MvvX.Plugins.AssemblyFinder
                             }
                         }
                     }
-
                 }
             }
             catch (ReflectionTypeLoadException ex)

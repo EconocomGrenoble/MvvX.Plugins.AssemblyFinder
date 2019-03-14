@@ -86,7 +86,6 @@ namespace MvvX.Plugins.AssemblyFinder
                             }
                         }
                     }
-
                 }
             }
             catch (ReflectionTypeLoadException ex)
@@ -137,7 +136,6 @@ namespace MvvX.Plugins.AssemblyFinder
                 {
                     System.Diagnostics.Debug.WriteLine(ex.Message);
                 }
-
             }
         }
 
