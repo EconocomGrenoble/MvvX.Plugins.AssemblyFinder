@@ -6,7 +6,7 @@
     <PackageId>MvvX.Plugins.AssemblyFinder</PackageId>
     <TargetFrameworks>netstandard2.0;Xamarin.iOS10;MonoAndroid81;net461;uap10.0.16299</TargetFrameworks>
     <NeutralLanguage>en</NeutralLanguage>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Product>Assembly finder (MvvmCross plugin)</Product>
     <RepositoryType>git</RepositoryType>
     <PackageLicenseUrl>https://github.com/mathieumack/MvvX.Plugins.AssemblyFinder</PackageLicenseUrl>

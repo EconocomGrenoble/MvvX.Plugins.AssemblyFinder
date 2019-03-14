@@ -29,7 +29,7 @@ Setup(context => {
 
     var cakeVersion = typeof(ICakeContext).Assembly.GetName().Version.ToString();
 
-    Information(Figlet("MvvX Plugins AssemblyFinder"));
+    Information(Figlet("AssemblyFinder"));
     Information("Building version {0}, ({1}, {2}) using version {3} of Cake.",
         versionInfo.SemVer,
         configuration,
