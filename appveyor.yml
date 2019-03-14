@@ -1,5 +1,11 @@
 version: '{build}'
 image: Visual Studio 2017
+branches:
+  only:
+  - master
+skip_tags: true
+max_jobs: 1
+configuration: Release
 build_script:
 - ps: .\build.ps1
 deploy:
@@ -23,8 +29,3 @@ dotnet_csproj:
   assembly_version: '{version}.{build}'
   file_version: '{version}.{build}'
   informational_version: '{version}.{build}'
-install:
-- ps: >-
-    $version = Get-Date -Format "yyyy.1MMdd.1HHmm"
-
-    Update-AppveyorBuild -Version "$version"

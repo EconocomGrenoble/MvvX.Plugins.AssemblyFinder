@@ -13,25 +13,24 @@ var verbosity = Verbosity.Minimal;
 var isRunningOnAppVeyor = AppVeyor.IsRunningOnAppVeyor;
 var isPullRequest = AppVeyor.Environment.PullRequest.IsPullRequest;
 
-GitVersion versionInfo = null;
+var version = AppVeyor.Environment.Build.Version;
 Setup(context => {
-    versionInfo = context.GitVersion(new GitVersionSettings {
-        UpdateAssemblyInfo = true,
-        OutputType = GitVersionOutput.Json
-    });
 
     if (isRunningOnAppVeyor)
     {
-        var buildNumber = AppVeyor.Environment.Build.Number;
-        AppVeyor.UpdateBuildVersion(versionInfo.InformationalVersion
-            + "-" + buildNumber);
+        $versionDate = Get-Date -Format "yyyy.1MMdd.1HHmm"
+        
+        var buildNumber = AppVeyor.Environment.Build.Assembly.Ass;
+        AppVeyor.UpdateBuildVersion($versionDate + "-" + buildNumber);
+
+        version = $versionDate + "-" + buildNumber;
     }
 
     var cakeVersion = typeof(ICakeContext).Assembly.GetName().Version.ToString();
 
     Information(Figlet("AssemblyFinder"));
     Information("Building version {0}, ({1}, {2}) using version {3} of Cake.",
-        versionInfo.SemVer,
+        version,
         configuration,
         target,
         cakeVersion);
@@ -86,9 +85,9 @@ Task("Build")
 {
 
     var settings = GetDefaultBuildSettings()
-        .WithProperty("Version", versionInfo.SemVer)
-        .WithProperty("PackageVersion", versionInfo.SemVer)
-        .WithProperty("InformationalVersion", versionInfo.InformationalVersion)
+        .WithProperty("Version", version)
+        .WithProperty("PackageVersion", version)
+        .WithProperty("InformationalVersion", version)
         .WithProperty("NoPackageAnalysis", "True")
         .WithTarget("Build");
 	
