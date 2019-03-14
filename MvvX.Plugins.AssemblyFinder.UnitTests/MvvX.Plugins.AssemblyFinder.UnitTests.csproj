@@ -56,13 +56,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Client.SampleClasses\Client.SampleClasses.csproj">
-      <Project>{47c6d681-188b-4526-ac2a-6a3a7a004c91}</Project>
-      <Name>Client.SampleClasses</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MvvX.Plugins.AssemblyFinder\MvvX.Plugins.AssemblyFinder.csproj">
       <Project>{40cba8b4-b885-423e-bc78-f5519b1b1b73}</Project>
       <Name>MvvX.Plugins.AssemblyFinder</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Test.Library\Test.Library.csproj">
+      <Project>{f2d1ec66-5425-4c03-9768-dfccf7413874}</Project>
+      <Name>Test.Library</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

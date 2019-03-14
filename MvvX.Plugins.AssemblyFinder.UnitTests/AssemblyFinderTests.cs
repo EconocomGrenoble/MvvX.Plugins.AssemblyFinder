@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using Client.SampleClasses;
-using Client.SampleClasses.Classes;
+using Test.Library;
+using Test.Library.Classes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MvvX.Plugins.AssemblyFinder.UnitTests
