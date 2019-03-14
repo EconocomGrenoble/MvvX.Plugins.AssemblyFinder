@@ -16,16 +16,6 @@ var isPullRequest = AppVeyor.Environment.PullRequest.IsPullRequest;
 var version = AppVeyor.Environment.Build.Version;
 Setup(context => {
 
-    if (isRunningOnAppVeyor)
-    {
-        var versionDate = Get-Date -Format "yyyy.1MMdd.1HHmm"
-        
-        var buildNumber = AppVeyor.Environment.Build.Assembly.Ass;
-        AppVeyor.UpdateBuildVersion(versionDate + "-" + buildNumber);
-
-        version = versionDate + "-" + buildNumber;
-    }
-
     var cakeVersion = typeof(ICakeContext).Assembly.GetName().Version.ToString();
 
     Information(Figlet("AssemblyFinder"));

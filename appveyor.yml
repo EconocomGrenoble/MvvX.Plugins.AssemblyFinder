@@ -29,3 +29,8 @@ dotnet_csproj:
   assembly_version: '{version}.{build}'
   file_version: '{version}.{build}'
   informational_version: '{version}.{build}'
+install:
+- ps: >-
+    $version = Get-Date -Format "yyyy.1MMdd.1HHmm"
+
+    Update-AppveyorBuild -Version "$version"
