@@ -6,7 +6,7 @@
     <PackageId>MvvX.Plugins.AssemblyFinder</PackageId>
     <TargetFrameworks>netstandard2.0;Xamarin.iOS10;MonoAndroid81;net461;uap10.0.16299</TargetFrameworks>
     <NeutralLanguage>en</NeutralLanguage>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Product>Assembly finder (MvvmCross plugin)</Product>
     <RepositoryType>git</RepositoryType>
     <PackageLicenseUrl>https://github.com/mathieumack/MvvX.Plugins.AssemblyFinder</PackageLicenseUrl>
@@ -16,6 +16,7 @@
     <Description>This package contains a package that let you search in your application assemblies. This is a  plugin for MvvmCross.</Description>
     <RepositoryUrl>https://github.com/mathieumack/MvvX.Plugins.AssemblyFinder</RepositoryUrl>
     <PackageTags>mvvm;mvvmcross;xamarin;android;ios;mac;forms;monodroid;monotouch;xamarin.android;xamarin.ios;wpf;plugins</PackageTags>
+    <PackageIconUrl />
   </PropertyGroup>
 
   <ItemGroup>
