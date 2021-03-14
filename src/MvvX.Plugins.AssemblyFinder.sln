@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26228.12
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Implements", "Implements", "{3F897945-502F-4ABD-8D14-8C5CFBB9DF4A}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Interface", "Interface", "{377CDE29-C5C8-4952-855F-C2EB5E5093C3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MvvX.Plugins.AssemblyFinder", "MvvX.Plugins.AssemblyFinder\MvvX.Plugins.AssemblyFinder.csproj", "{40CBA8B4-B885-423E-BC78-F5519B1B1B73}"
 EndProject
@@ -54,8 +52,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{377CDE29-C5C8-4952-855F-C2EB5E5093C3} = {3F897945-502F-4ABD-8D14-8C5CFBB9DF4A}
-		{40CBA8B4-B885-423E-BC78-F5519B1B1B73} = {377CDE29-C5C8-4952-855F-C2EB5E5093C3}
+		{40CBA8B4-B885-423E-BC78-F5519B1B1B73} = {3F897945-502F-4ABD-8D14-8C5CFBB9DF4A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {54703865-1CC5-4A6A-8952-E3EF6112CB1D}
